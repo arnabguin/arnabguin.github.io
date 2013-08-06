@@ -75,7 +75,9 @@ Please make sure the following are installed:
 3. For example clients, please cd to $MATHIOJS_HOME/client
    There are examples for local/hdfs/s3 modes
    
+   When running computations on the Amazon cloud (AWS), please fill in the aws/credentials.sh with user and job-specific details. Mathio will use credentials to connect to Amazon AWS.
 
+   Please check aws/README for more details.
    
 
 
