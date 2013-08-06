@@ -1,6 +1,6 @@
-Mathio.js - big math operations on cloud
+<h1>Mathio.js - big math operations on cloud</h1>
 
-Introduction
+<h2>Introduction</h2>
 ============
 
 Mathio.js is a front-end for simple math operations running on large data sets. A client-service model is offered to users
@@ -18,7 +18,7 @@ Mathio.js is a front-end for simple math operations running on large data sets. 
  (4) Amazon AWS - computations can be run locally or use the Amazon Elastic Map-Reduce framework. Sample AWS scripts are
  provided for running/tracking jobs. These scripts are built on top of the Ruby client.
  
- Hierarchy
+ <h2>Hierarchy</h2>
  =========
  
  <root>
@@ -31,7 +31,7 @@ Mathio.js is a front-end for simple math operations running on large data sets. 
  ----- /src (source code)
  ----- pom.xml (main build script)
  
-Requirements
+<h2>Requirements</h2>
 ============
 
 Hadoop 2.x+
@@ -40,14 +40,14 @@ Python 2.7+ (may work for earlier versions but not tested)
 Java 1.6.x+ 
 OS x86_64 (may work for other platforms but not tested)
 
-Installation
+<h2>Installation</h2>
 ============
 
 From the root directory:
 
 mvn package
 
-Running mathio.js
+<h2>Running mathio.js<h2>
 =================
 
 Please make sure the following are installed:
