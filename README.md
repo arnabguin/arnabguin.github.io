@@ -44,9 +44,13 @@ Mathio.js is a front-end for simple math operations running on large data sets. 
 ============
 
 Hadoop 2.x+
+
 Node.js 0.10.x+
+
 Python 2.7+ (may work for earlier versions but not tested)
+
 Java 1.6.x+ 
+
 OS x86_64 (may work for other platforms but not tested)
 
 <h2>Installation</h2>
@@ -60,7 +64,9 @@ mvn package
 =================
 
 Please make sure the following are installed:
+
 1. Set environment variable MATHIOJS_HOME to the root directory
+
 2. cd $MATHIOJS_HOME/server
    node index
    
