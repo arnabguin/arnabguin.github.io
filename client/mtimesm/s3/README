@@ -1,0 +1,11 @@
+
+Instructions for client:
+=======================
+
+* Create a .js file for new client
+* Create a new JSON file to enlist steps in flow. For example, chained multiplication can be performed by providing several steps in the JSON file.
+
+Please check sample client.js and steps.json for more details.
+
+JSON file content documentation can be found on the Amazon AWS web site.
+

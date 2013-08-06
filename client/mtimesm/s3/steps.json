@@ -1,0 +1,16 @@
+   [ 
+      { 
+         "Name": "MatrixMultiply", 
+         "ActionOnFailure": "CONTINUE", 
+         "HadoopJarStep": 
+         { 
+            "Jar": "s3n://mathiojs/jar/matrix.multiply-v1.0.jar", 
+            "MainClass": "org.mathio.js.MatrixMultiply", 
+            "Args": 
+            [ 
+               "s3n://mathiojs/data", 
+               "s3n://mathiojs/dataout"
+            ] 
+         } 
+      } 
+   ] 

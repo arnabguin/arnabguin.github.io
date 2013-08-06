@@ -1,0 +1,6 @@
+
+Data generation:
+
+python generate-random-matrices.py <dimension file> <output directory>
+
+Example dimension files are provided in the ./dim directory
