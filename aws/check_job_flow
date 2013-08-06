@@ -1,0 +1,88 @@
+#!/usr/bin/env bash
+
+USAGE="Usage: check_job_flow [all|<jobid> [poll] [<EMR(Elastic Map-Reduce)  parameters>]]"
+
+POLL_INTERVAL=5
+
+if [ $# -eq 0 ];
+then
+    echo $USAGE
+    exit 1
+fi
+
+EMR_RUBY_CLIENT=elastic-mapreduce-cli.rb
+
+rby=`which ruby`
+if [ "$rby" == "" ];
+then
+    echo "Ruby not in path.Exiting."
+    exit 1
+fi
+
+emr=`which $EMR_RUBY_CLIENT`
+if [ "$emr" == "" ];
+then
+    echo "Elastic map-reduce ruby client not present in path.Exiting."
+    echo "Software can be downloaded from http://elasticmapreduce.s3.amazonaws.com/elastic-mapreduce-ruby.zip"
+    exit 1
+fi
+emr_scripts_path=`dirname $emr`
+
+. $MATHIOJS_HOME/aws/credentials.sh
+
+EMR_RUBY_CLIENT_CMD="ruby -I $emr_scripts_path $emr_scripts_path/$EMR_RUBY_CLIENT"
+
+if [ $# -eq 1 ];
+then
+    job=$1
+    if [ $job == "all" ];
+    then
+        $EMR_RUBY_CLIENT_CMD -a $aws_access_id -p $aws_secret_key --list --region $aws_region
+    else 
+        $EMR_RUBY_CLIENT_CMD -a $aws_access_id -p $aws_secret_key --list --region $aws_region   -j $job 
+    fi
+else 
+    joborall=$1
+    if [ $joborall == "all" ]
+    then
+        joborall=""
+    else 
+        joborall="-j $joborall"
+    fi 
+    poll=$2
+    if [ $poll == "poll" ];
+    then
+        shift
+        shift
+        COUNTER=1
+        while [ 1 ]; do
+            Cevery10=$((COUNTER % 10))
+            Cevery5=$((COUNTER % 5))
+            if [ $Cevery10 == 0 ];
+            then
+                SECONDS=$(( COUNTER * POLL_INTERVAL ))
+                echo Elapsed $SECONDS seconds. Still waiting for job to be in running state...
+            fi
+            status_r=`$EMR_RUBY_CLIENT_CMD -a $aws_access_id -p $aws_secret_key --list --state RUNNING --region $aws_region $joborall $@`
+            sleep $POLL_INTERVAL 
+            status_c=`$EMR_RUBY_CLIENT_CMD -a $aws_access_id -p $aws_secret_key --list --state COMPLETED --region $aws_region $joborall $@`
+            status=$status_r$status_c
+            if [ $Cevery5 == 0 ];
+            then 
+                echo $status
+            fi
+            if [[ $status =~ "SHUTTING_DOWN\s+ec2" || $status =~ "COMPLETED\s+ec2" ]];
+            then
+                echo $status
+                echo End. Job is completed.
+                break
+            fi 
+            sleep $POLL_INTERVAL 
+            (( COUNTER+=1 ))
+        done
+    else
+        shift
+        $EMR_RUBY_CLIENT_CMD -a $aws_access_id -p $aws_secret_key --list --region $aws_region $joborall $@
+    fi
+fi
+

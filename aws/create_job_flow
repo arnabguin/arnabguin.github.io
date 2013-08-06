@@ -1,0 +1,47 @@
+#!/usr/bin/env bash
+
+if [ $# -eq 0 ];
+then
+    name="mathio.js(default)"
+else if [ $# -eq 1 ];
+then
+    name=$1
+else
+    echo "Usage: create_job_flow [<job name>]"
+    exit 1 
+fi
+fi
+
+if [ "$MATHIOJS_HOME" == "" ];
+then
+    echo "MATHIOJS_HOME not set. Please set MATHIOJS_HOME to server location."
+    exit 1
+fi
+
+. $MATHIOJS_HOME/aws/credentials.sh
+
+echo $aws_region
+echo $aws_slave_instance_type
+
+echo "Creating job for $aws_access_id ..."
+
+EMR_RUBY_CLIENT=elastic-mapreduce-cli.rb
+
+rby=`which ruby`
+if [ "$rby" == "" ];
+then
+    echo "Ruby not in path.Exiting."
+    exit 1
+fi
+
+emr=`which $EMR_RUBY_CLIENT`
+if [ "$emr" == "" ];
+then
+    echo "Elastic map-reduce ruby client not present in path.Exiting."
+    echo "Software can be downloaded from http://elasticmapreduce.s3.amazonaws.com/elastic-mapreduce-ruby.zip"
+    exit 1
+fi
+emr_scripts_path=`dirname $emr`
+
+emrout=`ruby -I $emr_scripts_path $emr_scripts_path/$EMR_RUBY_CLIENT -a $aws_access_id -p $aws_secret_key --create  --enable-debugging --debug --name \"$name\"  --key-pair-file \"$aws_key_pair\" --region $aws_region --slave-instance-type $aws_slave_instance_type --master-instance-type $aws_master_instance_type --log-uri $aws_log_uri --num-instances $aws_num_instances`
+echo $emrout

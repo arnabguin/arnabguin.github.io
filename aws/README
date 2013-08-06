@@ -1,0 +1,9 @@
+
+HowTo
+
+Description of scripts provided in this directory:
+
+check_job_flow	- Check the status of a job flow
+create_job_flow	- Create a new job flow
+credentials.sh	- User credentials (if you want to run operations on AWS, please file out <> entries from your AWS account)
+run_job_flow - Run job flow
