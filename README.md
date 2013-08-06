@@ -13,8 +13,11 @@ Mathio.js is a front-end for simple math operations running on large data sets. 
  Node.js uses the following open-source frameworks/software:
  
  (1) Node.js - the server and client are built on the Node.js framework
+ 
  (2) Hadoop - computations are run on Hadoop in local/hdfs/s3 modes
+ 
  (3) Python - random test generators for math features
+ 
  (4) Amazon AWS - computations can be run locally or use the Amazon Elastic Map-Reduce framework. Sample AWS scripts are
  provided for running/tracking jobs. These scripts are built on top of the Ruby client.
  
@@ -24,11 +27,17 @@ Mathio.js is a front-end for simple math operations running on large data sets. 
  <root>
  |
  ----- /server (server scripts)
+ 
  ----- /client (example clients, users can modify to suit their needs)
+ 
  ----- /aws (aws scripts for tracking/running/stopping EMR jobs)
+ 
  ----- /gen (random data generators)
+ 
  ----- /target (output of build - jar,class etc.)
+ 
  ----- /src (source code)
+ 
  ----- pom.xml (main build script)
  
 <h2>Requirements</h2>
