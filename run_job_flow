@@ -1,0 +1,41 @@
+#!/usr/bin/env bash
+
+if [ $# != 2 ];
+then
+   echo "Usage: run_job_flow.sh <jobid> <steps>"
+   exit
+fi
+
+job=$1
+steps=$2
+
+if [ "$MATHIOJS_HOME" == "" ];
+then
+    echo "MATHIOJS_HOME not set. Please set MATHIOJS_HOME to server location."
+    exit 1
+fi
+
+. $MATHIOJS_HOME/aws/credentials.sh
+
+echo "Running job for $aws_access_id ..."
+
+EMR_RUBY_CLIENT=elastic-mapreduce-cli.rb
+
+rby=`which ruby`
+if [ "$rby" == "" ];
+then
+    echo "Ruby not in path.Exiting."
+    exit 1
+fi
+
+emr=`which $EMR_RUBY_CLIENT`
+if [ "$emr" == "" ];
+then
+    echo "Elastic map-reduce ruby client not present in path.Exiting."
+    echo "Software can be downloaded from http://elasticmapreduce.s3.amazonaws.com/elastic-mapreduce-ruby.zip"
+    exit 1
+fi
+emr_scripts_path=`dirname $emr`
+
+emrout=`ruby -I $emr_scripts_path $emr_scripts_path/$EMR_RUBY_CLIENT -a $aws_access_id -p $aws_secret_key --region $aws_region -j $job RunJobFlow --json $steps`
+echo $emrout
